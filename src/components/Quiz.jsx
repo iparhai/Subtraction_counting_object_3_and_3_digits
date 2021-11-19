@@ -8,7 +8,7 @@ import sessionData from "../utils/sessionData.js"
 import Drop from "./drag.jsx";
 import DifficultDrag from "./DifficultDrag";
 import "animate.css"
-import Hints from "./Hints";
+import TempDDrop from "./temp";
 class Quiz extends React.Component {
   _isMounted = false;
   _secondsIntervalRef;
@@ -24,7 +24,7 @@ class Quiz extends React.Component {
     images: [bowl, rooster],
     randomImage: "",
     data: [],
-    totalProblems: 1,
+    totalProblems: 1
   };
 
   earnLife = () => {
@@ -51,11 +51,7 @@ class Quiz extends React.Component {
 
     this.nextProblem();
   };
-  componentDidUpdate() {
-    if (this.state.totalProblems > sessionData.limit) {
-      this.props.onEndGame()
-    }
-  }
+
   componentDidMount() {
     this._isMounted = true;
     this.getProblem();
@@ -75,7 +71,11 @@ class Quiz extends React.Component {
   componentWillUnmount() {
     this._isMounted = false;
   }
-
+  componentDidUpdate() {
+    if (this.state.totalProblems > sessionData.limit) {
+      this.props.onEndGame(this.state.points)
+    }
+  }
 
   wrongAnswer = () => {
     this._isMounted && this.props.onWrongAnswer();
@@ -156,82 +156,24 @@ class Quiz extends React.Component {
   }
 
   render() {
-    // const images = [...Array(parseInt(this.state.firstNumber))].map((e, i) => {
-    //   return <img key={i} src={bowl} style={{ width: "100px", height: "80px" }} />
-    // });
 
     return (
       <section className="show-up" style={{ width: "100%", height: "100vh" }}>
-        {/* <Hints currentProblem={this.state.problem}/> */}
         <div >
           {this.state.modalShowing ? (
             this.state.modal
           ) : (
             <div>
-              {sessionData.dif != "b" ?
-                <div>
-                  {/* <section>
-                    <blockquote class="electric bubble">Autobots,<span>Attack!</span></blockquote>
-                  </section> */}
-                  <h1 style={{ fontSize: "3.5em" }}> {this.state.problem} </h1>
-                  <DifficultDrag handleAnswer={this.evaluateProblem} answer={this.state.answer} incCount={(number) => { this.setState({ answer: this.state.answer + number }) }} decCount={(number) => { this.setState({ answer: this.state.answer - number }) }} count={this.state.answer} img={this.state.randomImage} />
-                </div> :
-                <div>
-                  {/* <table align="center">
-                    <tbody>
-                      <tr >
-                        {[...Array(parseInt(this.state.firstNumber))].map((e, i) => {
-                          return <td ><img key={i} src={this.state.randomImage} className="questionImage " draggable="false" /> </td>
-                        })}
-                        <td className="center"><h1 style={{ fontSize: "3.5em" }}> {this.state.symbol} </h1></td>
-                        {[...Array(parseInt(this.state.secondNumber))].map((e, i) => {
-                          return <td ><img key={i} src={this.state.randomImage} className="questionImage " draggable="false" /></td>
-                        })}
-                      </tr>
-                    </tbody>
-                  </table> */}
-                  {/* { this.state.firstNumber - this.state.secondNumber < 7 ? <div className="objectRow" style={{ width: "100%" }}>
-                    <div className="objectLeft">
-                      {[...Array(parseInt(this.state.firstNumber))].map((e, i) => {
-                        return <img key={i} src={this.state.randomImage} className="questionImage " draggable="false" />
-                      })}
-                    </div>
-                    <span className="operator" style={{ fontSize: "3.5em", textShadow: "1px 1px 1px #ff0000", float: "left", display: "inline" }}> {this.state.symbol} </span>
-                    <div className="objectRight">
-                      {[...Array(parseInt(this.state.secondNumber))].map((e, i) => {
-                        return <img key={i} src={this.state.randomImage} className="questionImage " draggable="false" />
-                      })}
-                    </div>
-                  </div> :  <h1 style={{ fontSize: "3.5em" }}> {this.state.problem} </h1>
-                  } */}
-                  <h1 style={{ fontSize: "3.5em" }}> {this.state.problem} </h1>
-                  <Drop handleAnswer={this.evaluateProblem} answer={this.state.answer} incCount={(number) => { this.setState({ answer: this.state.answer + number }) }} decCount={(number) => { this.setState({ answer: this.state.answer - number }) }} count={this.state.answer} img={this.state.randomImage} />
-                </div>
-              }
-              {/* <input
-                ref={input => {
-                  this.answerInput = input;
-                }}
-                className="App-input"
-                type="number"
-                placeholder="Enter"
-                onKeyUp={this.keyingUp}
-              /> */}
-              {/* <input
-                ref={input => {
-                  this.answerInput = input;
-                }}
-                className=""
-                type="number"
-                placeholder="Enter"
-                value={this.state.answer}
-                onKeyUp={this.keyingUp}
-              /> */}
-              {/* <button className="btn fourth answerButton" onClick={this.evaluateProblem}> {this.state.answer} </button> */}
+
+              <div>
+                <h1 style={{ fontSize: "3.5em" }}> {this.state.problem} </h1>
+                <DifficultDrag handleAnswer={this.evaluateProblem} answer={this.state.answer} incCount={(number) => { this.setState({ answer: this.state.answer + number }) }} decCount={(number) => { this.setState({ answer: this.state.answer - number }) }} count={this.state.answer} img={this.state.randomImage} />
+              </div>
+
             </div>
           )}
         </div>
-      </section>
+      </section >
 
     );
   }

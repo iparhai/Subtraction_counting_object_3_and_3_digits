@@ -49,7 +49,7 @@
 
 .dropBox {
   margin-right: 5vh;
-  margin-left : 5vh;
+  margin-left: 5vh;
   width: 100%;
   max-width: 50vh;
   max-height: 30vh;
@@ -73,7 +73,7 @@
 }
 
 .questionImage {
-  width: 15vh;
+  width: 100%;
   max-width: 100px;
 }
 
@@ -94,6 +94,7 @@
 .objectRow {
   margin-top: 10vh;
 }
+
 .parentDiv {
   margin-top: 20vh;
   width: 100%;
@@ -106,12 +107,15 @@
     width: 80%;
     text-align: center;
   }
+
   .objectLeft {
     margin-left: 10%;
   }
+
   .objectRight {
     margin-left: 10%;
   }
+
   .operator {
     width: 100%;
     float: left;
@@ -119,9 +123,12 @@
     line-height: "10px";
     height: "25px";
   }
+
   .questionImage {
-    width: 14vw;
+    width: 100%;
+    max-width: 50px;
   }
+
   .draggableImage {
     width: 14vw;
   }

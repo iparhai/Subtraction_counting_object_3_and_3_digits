@@ -64,22 +64,22 @@ export const evaluate = (symbol, prev) => {
  * @param {number} range 
  */
 const getRandomNumber = range => {
-    let eq ;
-    let min = 1
-    if(sessionData.dif == null || sessionData.dif == "b"){
-        range = 5
-        min = 1
-        eq = ((Math.random() * (range - min)) + 1 ).toFixed()
+    let eq;
+    let min = 100
+    if (sessionData.dif == null || sessionData.dif == "b") {
+        range = 300
+        min = 100
+        eq = ((Math.random() * (range - min)) + min).toFixed()
     }
-    else if( sessionData.dif == "i"){
-        range = 20
-        min = 10
-        eq = ((Math.random() * (range - min)) + min ).toFixed()
+    else if (sessionData.dif == "i") {
+        range = 700
+        min = 250
+        eq = ((Math.random() * (range - min)) + min).toFixed()
     }
-    else if (sessionData.dif == "m"){
-        range = 30
-        min = 15
-        eq = ((Math.random() * (range - min)) + min ).toFixed()
+    else if (sessionData.dif == "m") {
+        range = 999
+        min = 375
+        eq = ((Math.random() * (range - min)) + min).toFixed()
     }
     return eq
 }
@@ -112,11 +112,30 @@ const generateProblem = (points) => {
     const secondNumber = anotherNumber
     return { problem, firstNumber, secondNumber, symbol }
 };
+const getTwoDigitRandomNumber = () => {
+    let eq;
+    let min = 10
+    let max = 30
+    if (sessionData.dif == null || sessionData.dif == "b") {
+        eq = ((Math.random() * (max - min)) + min).toFixed()
+    }
+    else if (sessionData.dif == "i") {
+        max = 40
+        min = 25
+        eq = ((Math.random() * (max - min)) + min).toFixed()
+    }
+    else if (sessionData.dif == "m") {
+        max = 49
+        min = 35
+        eq = ((Math.random() * (max - min)) + min).toFixed()
+    }
+    return eq
+}
 
 const generateAdditionProblem = (points) => {
     const lv = 1;
     let firstNumber = getRandomNumber();
-    let symbol = "-";
+    let symbol = "+";
     let secondNumber = getRandomNumber();
     let problem = firstNumber
     problem += ` ${symbol} ${secondNumber}`
@@ -148,7 +167,7 @@ const generateSubtractionProblem = (points) => {
 const compare = (expression, value) => {
     return solve(expression) === Number(value)
 }
-const  getRandomInt = (min, max) => {
+const getRandomInt = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;

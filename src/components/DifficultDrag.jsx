@@ -19,6 +19,7 @@ import { useEffect } from 'react';
 import { DragDropContainer, DropTarget } from 'react-drag-drop-container';
 import ball10 from '../assets/10.svg'
 import ball1 from '../assets/1.svg'
+import ball100 from '../assets/100.svg'
 
 
 // import _6  from '../assets/sounds/_6.mp3';
@@ -33,18 +34,18 @@ import ball1 from '../assets/1.svg'
 // import _6  from '../assets/sounds/_6.mp3';
 
 
-const URLImage = ({ image, handleClick }) => {
+const URLImage = ({ image, handleClick, width, height }) => {
     const [img] = useImage(image.src);
     return (
         <Image
             image={img}
             x={image.x}
             y={image.y}
-            width={90}
-            height={70}
+            width={width}
+            height={height}
             // I will use offset to set origin to the center of the image
-            offsetX={img ? 90 / 2 : 0}
-            offsetY={img ? 70 / 2 : 0}
+            offsetX={img ? width / 2 : 0}
+            offsetY={img ? height / 2 : 0}
             onClick={handleClick}
             onTouchStart={handleClick}
         />
@@ -62,6 +63,7 @@ const Drop = (props) => {
     const [stageHeight, setStageHeight] = React.useState(200)
     const [currentImage, setCurrentImage] = React.useState(null)
     const [toIncrement, setToIncrement] = React.useState(1)
+    const targetImage = React.useRef();
 
     // const dragThis = React.useRef();
     const container = React.useRef();
@@ -160,19 +162,24 @@ const Drop = (props) => {
                         ref={stageRef}
                     >
                         <Layer>
+
                             {images.map((image) => {
                                 return <URLImage image={image} handleClick={() => {
                                     setImages(
                                         images.filter(item => item !== image)
                                     )
                                     playRemoveEffect()
-                                    if (image.src.includes("10")) {
+                                    if (image.src.includes("100")) {
+                                        props.decCount(100)
+                                    }
+                                    else if (image.src.includes("10")) {
                                         props.decCount(10)
                                     }
                                     else {
                                         props.decCount(1)
                                     }
-                                }} />;
+
+                                }} width={targetImage.current.containerElem.offsetWidth} height={targetImage.current.containerElem.offsetHeight} />;
                             })}
                         </Layer>
                     </Stage>
@@ -182,9 +189,24 @@ const Drop = (props) => {
             <div>
                 <DragDropContainer targetKey="me"
                     onDragStart={() => {
+                        setCurrentImage(ball100)
+                        setToIncrement(100)
+                    }}
+                    ref={e => targetImage.current = e}
+                >
+
+                    <img
+                        alt="lion"
+                        src={ball100}
+                        className={"noselect  questionImage "}
+                    />
+                </DragDropContainer>
+                <DragDropContainer targetKey="me"
+                    onDragStart={() => {
                         setCurrentImage(ball10)
                         setToIncrement(10)
                     }}
+                    ref={e => targetImage.current = e}
                 >
 
                     <img
@@ -194,23 +216,24 @@ const Drop = (props) => {
 
                     />
                 </DragDropContainer>
-                <br/>
+                <br />
                 <DragDropContainer targetKey="me"
                     onDragStart={() => {
                         setCurrentImage(ball1)
                         setToIncrement(1)
                     }}
+                    ref={e => targetImage.current = e}
                 >
 
                     <img
                         alt="lion"
                         src={ball1}
                         className={"noselect  questionImage "}
-                        ref={draggableImage}
                     />
                 </DragDropContainer>
+
             </div>
-           
+
 
         </div>
     );
